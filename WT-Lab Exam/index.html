@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registation</title>
+    <style>
+        body {
+            background-color: #d8efff; 
+            margin: 20px;
+    
+        }
+
+        .header {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Event Registation Form</h1>
+    </div>
+
+    <div class="">
+        <form id="regForm">
+            <div>
+                <label>Enter Your Name:</label>
+                <input type="text" id="fullname">
+                <p id="nameError" class="error"></p>
+            </div>
+
+            <div>
+                <label>Enter Your Email:</label>
+                <input type="email" id="email">
+                <p id="emailError" class="error"></p>
+            </div>
+
+            <div>
+                <label>Institution Field:</label>
+                <textarea id="institution"></textarea>
+                <p id="instError" class="error"></p>
+            </div>
+
+            <div>
+                <label>Attendance:</label>
+                <input type="radio" name="attendance" value="Virtual"> Virtual
+                <input type="radio" name="attendance" value="In-Person"> In-Person
+                <p id="attError" class="error"></p>
+            </div>
+
+            <button type="button" onclick="validateForm()">Register</button><br><br>
+            <button type="button">Show Event Analytics</button>
+        </form>
+
+        <script>
+            function validateForm() {
+                let name = document.getElementById("fullname").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let institution = document.getElementById("institution").value.trim();
+                let attendance = document.querySelector('input[name="attendance"]:checked');
+
+                document.getElementById("nameError").innerText = "";
+                document.getElementById("emailError").innerText = "";
+                document.getElementById("instError").innerText = "";
+                document.getElementById("attError").innerText = "";
+
+                let valid = true;
+
+                if (name.length < 6 || name.length > 100) {
+                    document.getElementById("nameError").innerText =
+                        "Name must be between 6 and 100 characters.";
+                    valid = false;
+                }
+
+                let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    document.getElementById("emailError").innerText =
+                        "Please enter a valid  email address.";
+                    valid = false;
+                }
+
+                if (institution.length > 100) {
+                    document.getElementById("instError").innerText =
+                        "Institution name cannot exceed 100 characters.";
+                    valid = false;
+                }
+
+                if (!attendance) {
+                    document.getElementById("attError").innerText =
+                        "Please select your attendance type.";
+                    valid = false;
+                }
+
+                if (valid) {
+                    alert("Done Registration");
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>
