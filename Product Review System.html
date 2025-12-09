@@ -1,0 +1,239 @@
+<html>
+<head>
+<title>Comment System</title>
+ 
+<style>
+    body{
+        font-family: Arial;
+        background:#f2f2f2;
+        padding:20px;
+    }
+ 
+    .comment-section{
+        width:60%;
+        margin:auto;
+        background:white;
+        padding:20px;
+        border-radius:8px;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+    }
+ 
+    h2{
+        text-align:center;
+        margin-bottom:20px;
+    }
+ 
+    input, textarea{
+        width:100%;
+        padding:10px;
+        margin:8px 0;
+        border:1px solid #ccc;
+        border-radius:5px;
+    }
+ 
+    .error{
+        color:red;
+        font-size:14px;
+    }
+ 
+    .star{
+        font-size:25px;
+        cursor:pointer;
+        color:#ccc;
+    }
+    .star.selected{
+        color:gold;
+    }
+ 
+    .comment-box{
+        background:#fafafa;
+        padding:10px;
+        margin-top:15px;
+        border-left:3px solid #007bff;
+        border-radius:5px;
+    }
+ 
+    .stats{
+        background:#007bff;
+        color:white;
+        padding:10px;
+        border-radius:5px;
+        margin-bottom:20px;
+        display:flex;
+        justify-content:space-between;
+        font-size:18px;
+    }
+</style>
+</head>
+ 
+<body>
+ 
+<div class="comment-section">
+ 
+    <h2>Article Comment Section</h2>
+ 
+    <!-- Statistics -->
+    <div class="stats">
+        <div>Total Comments: <span id="totalComments">0</span></div>
+        <div>Average Rating: <span id="avgRating">0</span></div>
+    </div>
+ 
+    <!-- Form using TABLE -->
+    <table width="100%">
+        <tr>
+            <td><b>Name:</b></td>
+            <td>
+                <input type="text" id="name">
+                <div id="nameError" class="error"></div>
+            </td>
+        </tr>
+ 
+        <tr>
+            <td><b>Email (optional):</b></td>
+            <td>
+                <input type="text" id="email">
+                <div id="emailError" class="error"></div>
+            </td>
+        </tr>
+ 
+        <tr>
+            <td><b>Comment:</b></td>
+            <td>
+                <textarea id="comment" rows="4"></textarea>
+                <div id="commentError" class="error"></div>
+            </td>
+        </tr>
+ 
+        <tr>
+            <td><b>Rating (optional):</b></td>
+            <td>
+                <div id="starContainer">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+                <p>Selected Rating: <span id="selectedRating">0</span></p>
+            </td>
+        </tr>
+ 
+        <tr>
+            <td></td>
+            <td>
+                <button onclick="submitComment()" style="padding:10px 20px; margin-top:10px;">Submit</button>
+            </td>
+        </tr>
+    </table>
+ 
+    <h3 style="margin-top:30px;">All Comments:</h3>
+    <div id="commentList"></div>
+ 
+</div>
+ 
+ 
+<script>
+    let comments = [];
+    let ratings = [];
+    let selectedRating = 0;
+ 
+    // ⭐ STAR RATING CLICK FUNCTION
+    document.querySelectorAll(".star").forEach(star => {
+        star.addEventListener("click", function(){
+            selectedRating = this.getAttribute("data-value");
+            document.getElementById("selectedRating").innerText = selectedRating;
+ 
+            document.querySelectorAll(".star").forEach(s => s.classList.remove("selected"));
+            for(let i=0; i<selectedRating; i++){
+                document.querySelectorAll(".star")[i].classList.add("selected");
+            }
+        });
+    });
+ 
+    function validateForm(){
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let comment = document.getElementById("comment").value.trim();
+ 
+        let isValid = true;
+ 
+        // Name validation
+        if(name.length < 2 || name.length > 50){
+            document.getElementById("nameError").innerText = "Name should be between 2 and 50 characters";
+            isValid = false;
+        } else {
+            document.getElementById("nameError").innerText = "";
+        }
+ 
+        // Email validation
+        if(email.length > 0 && !email.includes("@")){
+            document.getElementById("emailError").innerText = "Please enter a valid email address";
+            isValid = false;
+        } else {
+            document.getElementById("emailError").innerText = "";
+        }
+ 
+        // Comment validation
+        if(comment.length < 10 || comment.length > 500){
+            document.getElementById("commentError").innerText = "Comment should between 10 and 500 characters";
+            isValid = false;
+        } else {
+            document.getElementById("commentError").innerText = "";
+        }
+ 
+        return isValid;
+    }
+ 
+    function submitComment(){
+        if(!validateForm()) return;
+ 
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let comment = document.getElementById("comment").value.trim();
+ 
+        comments.push({name, email, comment, rating: selectedRating});
+ 
+        if(selectedRating > 0) ratings.push(Number(selectedRating));
+ 
+        updateStats();
+        displayComments();
+ 
+        // Reset fields
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("comment").value = "";
+        selectedRating = 0;
+        document.getElementById("selectedRating").innerText = "0";
+        document.querySelectorAll(".star").forEach(s => s.classList.remove("selected"));
+    }
+ 
+    function updateStats(){
+        document.getElementById("totalComments").innerText = comments.length;
+ 
+        if(ratings.length === 0){
+            document.getElementById("avgRating").innerText = 0;
+        } else {
+            let avg = ratings.reduce((a,b)=>a+b,0) / ratings.length;
+            document.getElementById("avgRating").innerText = avg.toFixed(1);
+        }
+    }
+ 
+    function displayComments(){
+        let container = document.getElementById("commentList");
+        container.innerHTML = "";
+ 
+        comments.forEach(c => {
+            let box = document.createElement("div");
+            box.className = "comment-box";
+            box.innerHTML = `
+                <p><strong>${c.name}</strong> (${c.email || "No email"})</p>
+                <p>${c.comment}</p>
+                <p>Rating: ${c.rating > 0 ? c.rating : "No rating"}</p>
+            `;
+            container.appendChild(box);
+        });
+    }
+</script>
+ 
+</body>
+</html>

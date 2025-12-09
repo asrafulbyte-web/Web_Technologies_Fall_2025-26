@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Background Color</title>
+    <script>
+        // Function to generate random color
+        function getRandomColor() {
+            // Generate a random hex color code
+            let letters = "0123456789ABCDEF";
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Wait until page is loaded
+        window.addEventListener("DOMContentLoaded", function() {
+
+            let btn = document.getElementById("changeBtn");
+
+            btn.addEventListener("click", function() {
+                let randomColor = getRandomColor();
+                document.body.style.backgroundColor = randomColor;
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+
+    <button id="changeBtn">Change Background</button>
+
+</body>
+</html>

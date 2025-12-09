@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0; /* Light background for the page */
+        }
+
+        
+
+        .registration-container {
+            background-color: #808080; /* Grey background for the form container */
+            padding: 40px 30px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-form label,
+        .registration-form p,
+        .registration-form a {
+            color: #ffffff; /* White text for labels and links */
+            margin-top: 15px;
+            display: block;
+        }
+
+        .registration-form label {
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+
+        .registration-form input[type="text"],
+        .registration-form input[type="email"],
+        .registration-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+        }
+
+        .role-selection {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .role-selection label {
+            margin-top: 0;
+            display: inline-block; /* Labels for Role are inline */
+            margin-right: 15px;
+        }
+
+        .role-selection .radio-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .role-selection .radio-group input[type="radio"] {
+            /* Custom styling for the radio buttons to better match the image */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+            background-color: transparent;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .role-selection .radio-group input[type="radio"]:checked {
+            background-color: #ffffff;
+        }
+
+        .sign-in-link {
+            text-align: right;
+            font-size: 0.9em;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sign-in-link a {
+            color: #4da6ff; 
+            text-decoration: none;
+            font-weight: bold;
+            display: inline;
+        }
+
+        .submit-button {
+            width: auto;
+            padding: 10px 20px;
+            background-color: #ffffff; 
+            color: #000000; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            float: right; 
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div class="registration-container">
+        <form class="registration-form" action="#" method="post">
+            
+            <label for="fullname">Fullname</label>
+            <input type="text" id="fullname" name="fullname" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="role-selection">
+                <label>Role</label>
+                <div class="radio-group">
+                    <input type="radio" id="admin" name="role" value="admin" checked>
+                    <label for="admin">Admin</label>
+                    
+                    <input type="radio" id="user" name="role" value="user">
+                    <label for="user">User</label>
+                </div>
+            </div>
+
+            <p class="sign-in-link">Already have an account?
+
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
